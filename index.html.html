@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="theme-color" content="#183b31">
+	<title>Katina Chivara Pujawa Invitation</title>
+	<style>
+		@font-face {
+			font-family: "TharuDigitalSiyapatha";
+			src: url("fonts/TharuDigitalSiyapatha.ttf") format("truetype");
+			font-style: normal;
+			font-weight: 400 700;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: "FM Arjunnx";
+			src: url("fonts/fm-arjunnx.ttf") format("truetype");
+			font-style: normal;
+			font-weight: 400 700;
+			font-display: swap;
+		}
+		@font-face {
+			font-family: "FM Bindux";
+			src: url("fonts/fm-bindux.ttf") format("truetype");
+			font-style: normal;
+			font-weight: 400 700;
+			font-display: swap;
+		}
+		:root {
+			color-scheme: light;
+			--green: #183b31; --gold: #c99d4b; --paper: #fbf7ed; --text: #34443a;
+			--page-bg: linear-gradient(145deg, #dce5d899, #eee5d399); --card-surface: #fbf7ede8; --soft-border: #e6dcc6;
+			--card-shadow: 0 18px 55px #183b3126; --input-bg: #fffdf8;
+		}
+		:root[data-theme="dark"] {
+			color-scheme: dark;
+			--green: #d3e6d8; --gold: #d5b36c; --paper: #202a25; --text: #e5e9e3;
+			--page-bg: linear-gradient(145deg, #131c18b3, #252b25b3); --card-surface: #202a25e8; --soft-border: #465047;
+			--card-shadow: 0 18px 55px #00000066; --input-bg: #18211c;
+		}
+		* { box-sizing: border-box; }
+		body {
+			min-height: 100vh; margin: 0; padding: 24px 14px; display: grid; place-items: center;
+			background: var(--page-bg), url("background.jpg") center / cover fixed; color: var(--text); font-family: Georgia, "Times New Roman", serif;
+			transition: background .3s ease, color .3s ease;
+		}
+		body:not(.invitation-open) { place-items: center; }
+		body.invitation-open { align-items: start; }
+		.card {
+			position: relative; width: min(100%, 740px); min-height: 560px; padding: clamp(36px, 7vw, 66px);
+			text-align: center; background: var(--card-surface); border: 1px solid var(--gold); box-shadow: var(--card-shadow);
+			transition: background .3s ease, border-color .3s ease;
+		}
+		.card:not(.is-open) {
+			width: min(100%, 500px); min-height: 340px; padding: 0;
+			background: transparent; border-color: transparent; box-shadow: none;
+		}
+		.card::before { content: ""; position: absolute; inset: 9px; border: 1px solid #c99d4b66; pointer-events: none; }
+		.card:not(.is-open)::before { display: none; }
+		.card::after {
+			content: ""; position: absolute; z-index: 0; top: 50%; left: 50%; width: min(88vw, 620px);
+			aspect-ratio: 1; border-radius: 50%; pointer-events: none; opacity: 0;
+			background:
+				repeating-conic-gradient(from 0deg, #c99d4b12 0deg 3deg, transparent 3deg 7.5deg),
+				radial-gradient(circle, transparent 0 17%, #c99d4b18 17.5% 18%, transparent 18.5% 30%, #c99d4b12 30.5% 31%, transparent 31.5% 46%, #c99d4b16 46.5% 47%, transparent 47.5%);
+			filter: blur(2px); transform: translate(-50%, -50%); transition: opacity 1s ease;
+		}
+		.card.is-open::after { opacity: 1; animation: mandala-rotate 80s linear infinite; }
+		@keyframes mandala-rotate {
+			to { transform: translate(-50%, -50%) rotate(360deg); }
+		}
+		.content { position: relative; z-index: 1; opacity: 0; visibility: hidden; transform: translateY(18px); transition: opacity .8s ease 1.2s, transform .8s ease 1.2s, visibility 0s linear 2s; }
+		.card:not(.is-open) .content { position: absolute; inset: 0; width: 100%; }
+		.card.is-open .content { opacity: 1; visibility: visible; transform: none; }
+		.envelope {
+			position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; padding: 24px;
+			color: var(--green); background: transparent; border: 0; cursor: pointer;
+			transition: opacity .45s ease 1.55s, visibility 0s linear 2s;
+		}
+		.card:not(.is-open) .envelope { display: grid; place-items: center; }
+		.envelope-art { position: relative; width: min(410px, 100%); height: 260px; filter: drop-shadow(0 16px 20px #183b3126); perspective: 900px; }
+		.envelope-back, .envelope-front, .envelope-flap { position: absolute; inset: 0; }
+		.envelope-back {
+			z-index: 1; background: #e8d7b8;
+			background-image: linear-gradient(hsla(0, 100%, 50%, 0.4), #e8d7b866), url("background.jpg");
+			background-position: center; background-size: cover; border: 1px solid #c99d4b;
+		}
+		.envelope-letter {
+			position: absolute; z-index: 2; right: 8%; bottom: 10px; left: 8%; height: 82%;
+			display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 22px 14px;
+			color: var(--green); background: var(--paper); border: 1px solid var(--soft-border);
+			transform: translateY(0); transition: transform 2.7s cubic-bezier(.2,.75,.25,1) .3s;
+		}
+		.envelope-letter span { color: #a77a31; font-size: 10px; font-weight: 700; letter-spacing: .16em; }
+		.envelope-letter strong { font-size: clamp(20px, 5vw, 27px); font-weight: 500; }
+		.envelope-flap { z-index: 4; background: #d7bd8c; clip-path: polygon(0 0, 100% 0, 50% 58%); transform-origin: center top; transition: transform 1.8s ease; }
+		.envelope-front { z-index: 3; background: #efe3cc; clip-path: polygon(0 100%, 0 0, 50% 58%, 100% 0, 100% 100%); }
+		.envelope-seal {
+			position: absolute; z-index: 5; top: 46%; left: 50%; display: grid; width: 42px; height: 42px;
+			place-items: center; color: var(--paper); background: var(--green); border: 2px solid var(--gold);
+			border-radius: 50%; font-size: 22px; transform: translate(-50%, -50%); transition: opacity .2s ease, transform .3s ease;
+		}
+		.open-hint { position: absolute; bottom: -38px; left: 0; width: 100%; font: 700 11px Arial, sans-serif; letter-spacing: .16em; }
+		.card.is-open .envelope { opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .8s ease 3.1s, visibility 0s linear 3.9s; }
+		.card.is-open .envelope-flap { transform: rotateX(180deg); }
+		.card.is-open .envelope-letter { transform: translateY(-115px); }
+		.card.is-open .envelope-seal { opacity: 0; transform: translate(-50%, -50%) scale(.6); }
+		.flower { color: var(--gold); font-size: 38px; }
+		.invitation-logo { display: block; width: min(120px, 35vw); max-height: 120px; margin: 0 auto 14px; object-fit: contain; }
+		.eyebrow { margin: 14px 0 8px; color: var(--green); font: 700 11px Arial, sans-serif; letter-spacing: .2em; text-transform: uppercase; }
+		h1 { margin: 0; color: var(--green); font-size: clamp(34px, 7vw, 54px); font-weight: 500; line-height: 1.12; }
+		.subtitle { margin: 12px 0 24px; color: #a77a31; font-size: 19px; font-style: italic; }
+		.divider { width: 70px; height: 1px; margin: 24px auto; background: var(--gold); }
+		.message { max-width: 530px; margin: auto; font-size: 17px; line-height: 1.7; }
+		.details { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 30px 0 24px; padding: 22px 0; border-block: 1px solid var(--soft-border); }
+		.label { display: block; margin-bottom: 8px; color: var(--green); font: 700 10px Arial, sans-serif; letter-spacing: .15em; text-transform: uppercase; }
+		.value { font-size: 15px; line-height: 1.5; }
+		.map-section { margin: 30px auto; }
+		.map-section h2 { margin: 0 0 8px; color: var(--green); font-size: 22px; font-weight: 500; }
+		.map-frame { display: block; width: 100%; height: 280px; margin: 18px 0 0; border: 1px solid var(--soft-border); }
+		.map-link { display: inline-block; margin-top: 12px; color: var(--green); font: 700 12px Arial, sans-serif; }
+		.content-toolbar { display: flex; justify-content: flex-end; gap: 10px; margin-bottom: 12px; }
+		.theme-toggle { padding: 10px 14px; color: var(--green); background: transparent; border: 1px solid var(--gold); }
+		.theme-toggle:hover { color: var(--paper); background: var(--green); }
+		.audio-toggle { padding: 10px 14px; color: var(--green); background: transparent; border: 1px solid var(--gold); }
+		.audio-toggle:hover { color: var(--paper); background: var(--green); }
+		.journey-section { margin: 34px auto; padding: 26px 20px; border-block: 1px solid var(--soft-border); }
+		.journey-section h2 { margin: 0 0 8px; color: var(--green); font-size: 22px; font-weight: 500; }
+		.journey-form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; max-width: 560px; margin: 20px auto; }
+		.journey-form label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+		.journey-input { grid-column: 1 / -1; min-width: 0; padding: 12px 14px; color: var(--text); background: var(--input-bg); border: 1px solid var(--soft-border); font: 15px Arial, sans-serif; }
+		.journey-input:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+		.journey-track { position: relative; height: 54px; margin: 24px 8px 8px; }
+		.journey-line, .journey-progress { position: absolute; top: 24px; right: 12px; left: 12px; height: 4px; border-radius: 4px; }
+		.journey-line { background: var(--soft-border); }
+		.journey-progress { background: var(--gold); transform: scaleX(0); transform-origin: left; }
+		.journey-track.is-travelling .journey-progress { transform: scaleX(1); transition: transform 2s ease; }
+		.journey-marker { position: absolute; z-index: 1; top: 13px; font-size: 22px; }
+		.journey-marker.start { left: 0; }
+		.journey-marker.end { right: 0; }
+		.journey-track.is-live .journey-marker.start { animation: location-pulse 1.8s ease-in-out infinite; }
+		@keyframes location-pulse {
+			50% { transform: scale(1.3); filter: drop-shadow(0 0 6px var(--gold)); }
+		}
+		.journey-vehicle { position: absolute; z-index: 2; top: 26px; left: 12px; font-size: 26px; line-height: 1; opacity: 0; transform: translate(-50%, -50%); }
+		.journey-track.is-travelling .journey-vehicle { opacity: 1; animation: travel 2s ease-in-out forwards; }
+		@keyframes travel { from { left: 12px; } to { left: calc(100% - 12px); } }
+		.journey-labels { display: flex; justify-content: space-between; gap: 12px; color: var(--text); font: 12px Arial, sans-serif; }
+		.journey-labels span { max-width: 45%; overflow-wrap: anywhere; }
+		.journey-distance { margin: 8px 0; color: var(--green); font: 13px Arial, sans-serif; text-align: center; }
+		.journey-distance[hidden] { display: none; }
+		.directions-link { display: inline-block; margin-top: 18px; padding: 12px 16px; color: var(--paper); background: var(--green); font: 700 12px Arial, sans-serif; text-decoration: none; }
+		.directions-link:hover { background: var(--green); color: var(--paper); }
+		.directions-link[hidden] { display: none; }
+		.travel-status { min-height: 18px; margin: 12px 0 0; color: var(--green); font: 13px Arial, sans-serif; }
+		.travel-status[role="status"] { font-family: Arial, sans-serif; }
+		.reveal { opacity: 0; transform: translateY(22px); transition: opacity .75s ease, transform .75s ease; }
+		.reveal.is-visible { opacity: 1; transform: none; }
+		.host { color: var(--green); font-size: 18px; }
+		.blessing { display: block; margin-top: 7px; color: #68756b; font-size: 15px; font-style: italic; }
+		.creator-credit { margin: 24px 0 0; color: var(--text); font: 12px Arial, sans-serif; }
+		.developer-logo { display: block; width: 64px; max-height: 64px; margin: 8px auto; object-fit: contain; }
+		.special-note { min-height: 24px; margin: 10px 0 0; color: var(--text); font-size: 14px; font-style: italic; }
+		.envelope-letter, .eyebrow, h1, .subtitle { font-family: "TharuDigitalSiyapatha", serif; }
+		.message, .blessing, .special-note, .journey-section > .travel-status { font-family: "FM Arjunnx", serif; }
+		.details, .details *, .map-section h2, .map-section .value, .label,
+		.journey-section h2, .journey-section .value, .host {
+			font-family: "FM Bindux", serif;
+		}
+		.sinhala { letter-spacing: normal; line-height: 1.8; }
+		button { padding: 13px 20px; color: white; background: var(--green); border: 0; cursor: pointer; font: 700 12px Arial, sans-serif; letter-spacing: .08em; }
+		button:hover { background: #315d49; }
+		button:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
+		#status { min-height: 16px; margin: 10px 0 0; color: var(--green); font: 13px Arial, sans-serif; }
+		@media (max-width: 540px) {
+			body { padding: 10px; }
+			.card { min-height: 520px; padding: 36px 22px; }
+			.card:not(.is-open) { min-height: 300px; padding: 0; }
+			.envelope-art { height: 220px; }
+			.open-hint { bottom: -34px; }
+			.card.is-open .envelope-letter { transform: translateY(-100px); }
+			.details { grid-template-columns: 1fr; gap: 17px; margin: 24px 0; }
+			.message { font-size: 16px; }
+			.map-frame { height: 240px; }
+			.journey-section { padding: 24px 10px; }
+			.journey-form { grid-template-columns: 1fr; }
+			.journey-input { grid-column: auto; }
+		}
+		@media (prefers-reduced-motion: reduce) {
+			*, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
+			.card.is-open::after, .journey-track.is-live .journey-marker.start { animation: none; }
+		}
+	</style>
+</head>
+<body>
+	<audio id="invitation-audio" src="invitation.mp3" loop preload="auto" hidden></audio>
+	<main class="card">
+		<button class="envelope" id="open-invitation" type="button" aria-expanded="false" aria-controls="invitation-content" aria-label="Open your invitation">
+			<span class="envelope-art" aria-hidden="true">
+				<span class="envelope-back"></span>
+				<span class="envelope-letter"><span></span><strong><br></strong></span>
+				<span class="envelope-flap"></span>
+				<span class="envelope-front"></span>
+				<span class="envelope-seal">❋</span>
+				<span class="open-hint">TAP TO OPEN</span>
+			</span>
+		</button>
+		<div class="content" id="invitation-content">
+			<div class="content-toolbar">
+				<button class="audio-toggle" id="audio-toggle" type="button" aria-pressed="false">MUTE MUSIC</button>
+				<button class="theme-toggle" id="theme-toggle" type="button" aria-pressed="false">🌙 Dark mode</button>
+			</div>
+			<div class="flower" aria-hidden="true"></div>
+			<img class="invitation-logo" id="invitation-logo" data-src="logo.png" alt="Invitation logo" hidden>
+			<p class="eyebrow"></p>
+			<h1>lÀk Öjr mQcd uyd msxlu <br></h1>
+			<p class="subtitle">2026</p>
+			<div class="divider"></div>
+			<p class="message">;,amsáh ft;sydisl fndaê rdcuyd úydria:dkfhys 2026 lÀk Öjr mQcd uyd mskalu 2026$11$08 Èk meje;aùug lghq;= ixúOdkh lr we;' 
+				tu W;=ï uyd mskalu ksñ;s lrf.k mj;ajkq ,nk úfYaI O¾u foaYkdj 2026$11$07 Èk iji y;g úydria: O¾u Yd,dfõ§ meje;afõ''</p>
+			<section class="details reveal" aria-label="Event details">
+				<div><span class="label"></span><span class="value">foaYlhdKka jykafia</span></div>
+				<div><span class="label"></span><span class="value">rdclSh mKaä;"wdpd¾h"fudrjl OïurlaÅ; iajdóka jykafia</span></div>
+			</section>
+			<p class="message">2026$11$08 Èk w¨hu ;,amsáh ueomgqu. mÈxÑ mqIamd pkaøldka;s uy;añhf.a ksjiska lÀk Öjrh /.;a fmryr .u jgd m%olaIsKd lsÍug kshñ;hs"
+tÈku iji yhg w¾O Y;dêl uyd ix>r;akh úIfhys msßkefuk .s,kami odkh yd lÀk Öjrh iÕ i;= lsÍfï wisßu;a mskalï lghq;= meje;aùug kshñ;hs'</p>
+			<section class="map-section reveal" aria-label="Venue map">
+				<h2></h2>
+				<p class="value">;,amsáh ueomgqu. mÈxÑ mqIamd pkaøldka;s uy;añhf.a ksji msysá ia:kh my;ska</p>
+				<iframe class="map-frame" id="venue-map" title="Map showing the event venue" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+				<a class="map-link" id="map-link" target="_blank" rel="noopener noreferrer">OPEN IN GOOGLE MAPS</a>
+			</section>
+			<section class="journey-section reveal" aria-labelledby="journey-title">
+				<h2 id="journey-title"></h2>
+				<p class="value">tÈku iji yhg w¾O Y;dêl uyd ix>r;akh úIfhys msßkefuk .s,kami odkh yd lÀk Öjrh iÕ i;= lsÍfï wisßu;a mskalï lghq;= meje;aùug kshñ;hs'</p>
+				<p class="travel-status">iqÿ j;ska ieriS fuu udyeÕs mskalï lghq;= i|yd iyNd.S jk f,i Tng idikd,fhka wdrdOkd lrñ'</p>
+				<form class="journey-form" id="journey-form">
+					<label for="starting-location">Your starting location</label>
+					<input class="journey-input" id="starting-location" name="starting-location" type="text" placeholder="Optional: enter a starting location" autocomplete="street-address">
+					<button type="button" id="use-my-location" aria-pressed="false">START LIVE LOCATION</button>
+					<button type="submit">USE MANUAL LOCATION</button>
+				</form>
+				<div class="journey-track" id="journey-track" role="img" aria-label="Journey preview from your location to the event venue">
+					<span class="journey-line"></span>
+					<span class="journey-progress"></span>
+					<span class="journey-marker start" aria-hidden="true">📍</span>
+					<span class="journey-marker end" aria-hidden="true">📍</span>
+					<span class="journey-vehicle" aria-hidden="true">🚗</span>
+				</div>
+				<div class="journey-labels"><span id="journey-origin">Your location</span><span id="journey-destination">Event venue</span></div>
+				<p class="journey-distance" id="journey-distance" hidden></p>
+				<a class="directions-link" id="directions-link" target="_blank" rel="noopener noreferrer" hidden>OPEN ROUTE IN GOOGLE MAPS</a>
+				<p class="travel-status" id="travel-status" role="status" aria-live="polite"></p>
+			</section>
+			<p class="host reveal">f;rejka irKhs'<span class="blessing"></span></p>
+			<button id="share" type="button">SHARE INVITATION</button>
+			<p id="status" role="status" aria-live="polite"></p>
+			<footer class="creator-credit">
+				<p>Developer: Ashan Fernando, a member of the Sri Saranapala Dhamma School Past Pupils' Association </p>
+				<img class="developer-logo" src="dp logo.png" alt="Developer logo">
+				<p class="special-note sinhala" lang="si">ඔබ සැමට ආරාධනා</p>
+			</footer>
+		</div>
+	</main>
+	<script>
+		const card = document.querySelector('.card');
+		const openButton = document.querySelector('#open-invitation');
+		const invitationAudio = document.querySelector('#invitation-audio');
+		const audioToggle = document.querySelector('#audio-toggle');
+		audioToggle.addEventListener('click', () => {
+			invitationAudio.muted = !invitationAudio.muted;
+			audioToggle.setAttribute('aria-pressed', String(invitationAudio.muted));
+			audioToggle.textContent = invitationAudio.muted ? 'UNMUTE MUSIC' : 'MUTE MUSIC';
+		});
+		const invitationLogo = document.querySelector('#invitation-logo');
+		invitationLogo.addEventListener('load', () => { invitationLogo.hidden = invitationLogo.naturalWidth === 0; }, { once: true });
+		invitationLogo.addEventListener('error', () => { invitationLogo.hidden = true; }, { once: true });
+		invitationLogo.src = invitationLogo.dataset.src;
+		const venue = 'Event venue';
+		const venueCoordinates = { latitude: 6.681518, longitude: 79.920311 };
+		const mapQuery = encodeURIComponent(`${venueCoordinates.latitude},${venueCoordinates.longitude}`);
+		document.querySelector('#venue-map').src = `https://maps.google.com/maps?q=${mapQuery}&output=embed`;
+		document.querySelector('#map-link').href = `https://www.google.com/maps/search/?api=1&query=${mapQuery}`;
+
+		const themeToggle = document.querySelector('#theme-toggle');
+		themeToggle.addEventListener('click', () => {
+			const darkMode = document.documentElement.dataset.theme !== 'dark';
+			document.documentElement.dataset.theme = darkMode ? 'dark' : 'light';
+			themeToggle.setAttribute('aria-pressed', String(darkMode));
+			themeToggle.textContent = darkMode ? '☀️ Light mode' : '🌙 Dark mode';
+			document.querySelector('meta[name="theme-color"]').content = darkMode ? '#202a25' : '#183b31';
+		});
+
+		const journeyForm = document.querySelector('#journey-form');
+		const journeyTrack = document.querySelector('#journey-track');
+		const startingLocation = document.querySelector('#starting-location');
+		const directionsLink = document.querySelector('#directions-link');
+		const travelStatus = document.querySelector('#travel-status');
+		const locationButton = document.querySelector('#use-my-location');
+		const journeyDistance = document.querySelector('#journey-distance');
+		let locationWatchId = null;
+		let hasLiveLocation = false;
+
+		function setTravelStatus(message) {
+			travelStatus.textContent = message;
+		}
+
+		function getStraightLineDistanceKm(latitude, longitude) {
+			const radians = degrees => degrees * Math.PI / 180;
+			const latitudeDifference = radians(venueCoordinates.latitude - latitude);
+			const longitudeDifference = radians(venueCoordinates.longitude - longitude);
+			const haversine = Math.sin(latitudeDifference / 2) ** 2
+				+ Math.cos(radians(latitude)) * Math.cos(radians(venueCoordinates.latitude))
+				* Math.sin(longitudeDifference / 2) ** 2;
+			return 6371.0088 * 2 * Math.atan2(Math.sqrt(haversine), Math.sqrt(1 - haversine));
+		}
+
+		function showJourney(origin, routeUrl, statusMessage, animate = true) {
+			document.querySelector('#journey-origin').textContent = origin;
+			document.querySelector('#journey-destination').textContent = venue;
+			if (statusMessage) setTravelStatus(statusMessage);
+			directionsLink.href = routeUrl;
+			directionsLink.hidden = false;
+			if (animate) {
+				journeyTrack.classList.remove('is-travelling');
+				void journeyTrack.offsetWidth;
+				journeyTrack.classList.add('is-travelling');
+			}
+		}
+
+		function stopLiveLocation() {
+			if (locationWatchId !== null) {
+				navigator.geolocation.clearWatch(locationWatchId);
+				locationWatchId = null;
+			}
+			locationButton.textContent = 'START LIVE LOCATION';
+			locationButton.setAttribute('aria-pressed', 'false');
+			journeyTrack.classList.remove('is-live');
+			hasLiveLocation = false;
+		}
+
+		locationButton.addEventListener('click', () => {
+			if (locationWatchId !== null) {
+				stopLiveLocation();
+				setTravelStatus('සජීවී ස්ථාන යාවත්කාලීන කිරීම නතර කරන ලදී.');
+				return;
+			}
+
+			if (!navigator.geolocation) {
+				setTravelStatus('Location is unavailable. Open this invitation from a secure HTTPS website in a browser that supports location, then allow location access.');
+				startingLocation.focus();
+				return;
+			}
+
+			if (!window.isSecureContext || location.protocol === 'file:') {
+				setTravelStatus('Your phone blocks GPS on this page because it was opened as a local file or insecure page. Upload it to an HTTPS website, then open that HTTPS link on your phone.');
+				startingLocation.focus();
+				return;
+			}
+
+			hasLiveLocation = false;
+			journeyDistance.hidden = true;
+			locationButton.textContent = 'STOP LIVE LOCATION';
+			locationButton.setAttribute('aria-pressed', 'true');
+			setTravelStatus('Requesting location access. Allow it in your browser to start live updates.');
+			locationWatchId = navigator.geolocation.watchPosition(position => {
+				const origin = `${position.coords.latitude},${position.coords.longitude}`;
+				const distanceKm = getStraightLineDistanceKm(position.coords.latitude, position.coords.longitude);
+				const routeUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${mapQuery}&travelmode=driving`;
+				const firstUpdate = !hasLiveLocation;
+				showJourney(
+					'Your current location',
+					routeUrl,
+					firstUpdate ? 'ඔබගේ ස්ථානය යාවත්කාලීන වෙමින් පවතී. නවතම ස්ථානයේ සිට මාර්ගය බැලීමට සිතියම් සබැඳිය විවෘත කරන්න' : '',
+					firstUpdate
+				);
+				journeyDistance.textContent = `Approx. straight-line distance: ${distanceKm < 1 ? `${Math.round(distanceKm * 1000)} m` : `${distanceKm.toFixed(1)} km`}. Road distance may differ.`;
+				journeyDistance.hidden = false;
+				hasLiveLocation = true;
+				journeyTrack.classList.add('is-live');
+			}, error => {
+				if (error.code === error.PERMISSION_DENIED) {
+					stopLiveLocation();
+					setTravelStatus('Location access was denied. Allow location access or enter your starting location below.');
+				} else if (error.code === error.POSITION_UNAVAILABLE) {
+					setTravelStatus('Your phone could not determine your location. Turn on Location Services, check GPS reception, and keep the page open.');
+				} else {
+					setTravelStatus('Getting your location timed out. Check that Location Services are on and try again.');
+				}
+			}, { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 });
+		});
+
+		journeyForm.addEventListener('submit', event => {
+			event.preventDefault();
+			const origin = startingLocation.value.trim();
+			if (!origin) {
+				setTravelStatus('Enter a starting location to get manual directions.');
+				startingLocation.focus();
+				return;
+			}
+
+			if (locationWatchId !== null) stopLiveLocation();
+			journeyDistance.hidden = true;
+			const routeUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin)}&destination=${mapQuery}&travelmode=driving`;
+			showJourney(origin, routeUrl, 'Your route is ready. Open Google Maps for turn-by-turn directions.');
+		});
+
+		window.addEventListener('beforeunload', () => {
+			if (locationWatchId !== null) navigator.geolocation.clearWatch(locationWatchId);
+		});
+
+		openButton.addEventListener('click', async () => {
+			card.classList.add('is-open');
+			document.body.classList.add('invitation-open');
+			openButton.setAttribute('aria-expanded', 'true');
+			try {
+				await invitationAudio.play();
+			} catch (error) {
+				invitationAudio.hidden = false;
+				invitationAudio.controls = true;
+				status.textContent = 'Could not start the music automatically. Use the audio controls to play it.';
+			}
+		});
+
+		const revealObserver = new IntersectionObserver((entries, observer) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					entry.target.classList.add('is-visible');
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { threshold: 0.15 });
+		document.querySelectorAll('.reveal').forEach(section => revealObserver.observe(section));
+
+		const shareButton = document.querySelector('#share');
+		const status = document.querySelector('#status');
+		shareButton.addEventListener('click', () => {
+			const invite = `You are warmly invited to the Katina Chivara Pujawa. ${location.href}`;
+			const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(invite)}`;
+			window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+			status.textContent = 'WhatsApp is opening with your invitation. Choose a chat and tap Send.';
+		});
+	</script>
+</body>
+</html>
