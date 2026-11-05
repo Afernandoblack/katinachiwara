@@ -45,6 +45,14 @@
 			background: var(--page-bg), url("background.jpg") center / cover fixed; color: var(--text); font-family: Georgia, "Times New Roman", serif;
 			transition: background .3s ease, color .3s ease;
 		}
+		.flower-fall-video {
+			position: fixed; z-index: 2; inset: 0; width: 100%; height: 100%; object-fit: cover;
+			opacity: 0; visibility: hidden; pointer-events: none; mix-blend-mode: screen;
+			transition: opacity 1s ease, visibility 0s linear 1s;
+		}
+		body.invitation-open .flower-fall-video {
+			opacity: .45; visibility: visible; transition: opacity 1s ease;
+		}
 		body::before, body::after {
 			content: ""; position: fixed; z-index: 0; top: 50%; width: clamp(400px, 32vw, 400px);
 			aspect-ratio: 1; background: url("mandana-envelope.png") center / contain no-repeat;
@@ -211,12 +219,16 @@
 		}
 		@media (prefers-reduced-motion: reduce) {
 			*, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
-			body::before, body::after, .card.is-open::after, .journey-track.is-live .journey-marker.start { animation: none; }
+			body::before, body::after, .flower-fall-video, .card.is-open::after, .journey-track.is-live .journey-marker.start { animation: none; }
+			.flower-fall-video { display: none; }
 		}
 	</style>
 </head>
 <body>
 	<audio id="invitation-audio" src="invitation.mp3" loop preload="auto" hidden></audio>
+	<video class="flower-fall-video" id="flower-fall-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+		<source src="flower faill.mp4" type="video/mp4">
+	</video>
 	<main class="card">
 		<button class="envelope" id="open-invitation" type="button" aria-expanded="false" aria-controls="invitation-content" aria-label="Open your invitation">
 			<span class="envelope-art" aria-hidden="true">
@@ -289,6 +301,7 @@ tÈku iji yhg w¾O Y;dêl uyd ix>r;akh úIfhys msßkefuk .s,kami odkh yd lÀk Ö
 		const card = document.querySelector('.card');
 		const openButton = document.querySelector('#open-invitation');
 		const invitationAudio = document.querySelector('#invitation-audio');
+		const flowerFallVideo = document.querySelector('#flower-fall-video');
 		const audioToggle = document.querySelector('#audio-toggle');
 		audioToggle.addEventListener('click', () => {
 			invitationAudio.muted = !invitationAudio.muted;
@@ -395,7 +408,7 @@ tÈku iji yhg w¾O Y;dêl uyd ix>r;akh úIfhys msßkefuk .s,kami odkh yd lÀk Ö
 				showJourney(
 					'Your current location',
 					routeUrl,
-					firstUpdate ? 'ඔබගේ ස්ථානය යාවත්කාලීන වෙමින් පවතී නවතම ස්ථානයේ සිට මාර්ගය බැලීමට සිතියම් සබැඳිය විවෘත කරන්න' : '',
+					firstUpdate ? 'ඔබගේ ස්ථානය යාවත්කාලීන වෙමින් පවතී. නවතම ස්ථානයේ සිට මාර්ගය බැලීමට සිතියම් සබැඳිය විවෘත කරන්න' : '',
 					firstUpdate
 				);
 				journeyDistance.textContent = `Approx. straight-line distance: ${distanceKm < 1 ? `${Math.round(distanceKm * 1000)} m` : `${distanceKm.toFixed(1)} km`}. Road distance may differ.`;
@@ -437,6 +450,15 @@ tÈku iji yhg w¾O Y;dêl uyd ix>r;akh úIfhys msßkefuk .s,kami odkh yd lÀk Ö
 			card.classList.add('is-open');
 			document.body.classList.add('invitation-open');
 			openButton.setAttribute('aria-expanded', 'true');
+			if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+				try {
+					flowerFallVideo.playbackRate = 0.5;
+					await flowerFallVideo.play();
+				} catch (error) {
+					console.error('Could not play the flower-fall video.', error);
+					status.textContent = 'The flower animation could not be played.';
+				}
+			}
 			try {
 				await invitationAudio.play();
 			} catch (error) {
